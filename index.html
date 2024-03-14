@@ -23,8 +23,9 @@
         let backgroundImage;
         let dustBunnyImages = [];
         let dustBunnies = [];
+        let dustBunnySad;
         let roomba;
-        const num = 40; // using gifs - so it can't handle too large of a num!
+        const num = 30; // using gifs - so it can't handle too large of a num!
         const noiseScale = 0.01;
         let radius;
         let bunnySize;
@@ -37,6 +38,7 @@
                 dustBunnyImages.push(loadImage("dustBunny.gif"));
             }
             roomba = loadImage("roomba.png");
+            dustBunnySad = loadImage("dustBunnySad.gif");
         }
 
         // setup the vectors of each bunny in the window
@@ -51,6 +53,7 @@
             stroke(0, 128, 128);
             noiseSeed(1);
             bunnySize = Math.min(windowHeight / 8, windowWidth / 8);
+            sadBunnySize = bunnySize * 4;
             roombaSize = Math.min(windowHeight / 6, windowWidth / 6);
             radius = Math.min(windowHeight / 3, windowWidth / 3);
 
@@ -116,11 +119,20 @@
             // draw the roomba at the current location of the mouse
             image(roomba, mouseX - roombaSize * 3 / 2, mouseY - roombaSize, roombaSize * 3, roombaSize * 2);
 
+            // once every dust bunny has been sucked up, display text to say,
+            // "All clean!" as well as a defeated and sad dust bunny
             if (dustBunnies.length < 1) {
-                fill(255);
-                textSize(Math.min(windowHeight / 8, windowWidth / 8));
+                image(dustBunnySad, windowWidth / 2 - sadBunnySize / 2, windowHeight * 3 / 5 - sadBunnySize / 2, sadBunnySize, sadBunnySize);
+
+                fill(0);
+                textSize(Math.min(windowWidth / 9, windowHeight / 9));
                 textAlign(CENTER, CENTER);
-                text("All clean!", windowWidth / 2, windowHeight / 2);
+                textFont('Lucida Handwriting');
+                text("All clean!", windowWidth / 2.025, windowHeight * (4 / 5));
+                text("All clean!", windowWidth / 1.975, windowHeight * (4 / 5));
+
+                fill(255);
+                text("All clean!", windowWidth / 2, windowHeight * 4 / 5);
             }
         }
 
